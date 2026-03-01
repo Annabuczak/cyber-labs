@@ -1,3 +1,7 @@
+
+Cybersecurity student transitioning into Security Operations.
+This repository documents hands-on labs, networking fundamentals, system hardening exercises, and detection investigations as I build towards a SOC Analyst role.
+
 # Cyber Labs
 
 Structured documentation of my practical Linux and networking lab work as I build strong Blue Team foundations.
