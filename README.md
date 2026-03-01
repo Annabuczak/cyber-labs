@@ -1,36 +1,40 @@
+Cybersecurity Student | Aspiring SOC Analyst
 
 Cybersecurity student transitioning into Security Operations.
-This repository documents hands-on labs, networking fundamentals, system hardening exercises, and detection investigations as I build towards a SOC Analyst role.
 
-# Cyber Labs
+This repository documents hands-on labs, networking fundamentals, system hardening exercises, and detection investigations as I build toward a SOC Analyst role in a Blue Team environment.
 
-Structured documentation of my practical Linux and networking lab work as I build strong Blue Team foundations.
+My focus is on developing practical defensive skills, understanding system behaviour, and learning how to detect and analyse security events — not just completing labs.
+
+⸻
+
+🧪 Cyber Labs
+
+Structured documentation of practical Linux, Windows, and networking lab work designed to build strong SOC foundations.
 
 This repository focuses on:
+	•	Linux system fundamentals
+	•	Service management & systemctl
+	•	Permissions & process control
+	•	Windows Event Log analysis
+	•	Basic network reconnaissance (nmap, packet inspection)
+	•	Detection thinking & investigation writeups
+	•	Reproducible lab exercises
 
-- Linux system fundamentals  
-- Service management  
-- Permissions & process control  
-- Basic network reconnaissance  
-- Practical, documented lab exercises  
+⸻
 
----
+📁 Structure
+	•	linux/ → Permissions, processes, services
+	•	networking/ → IP addressing, Nmap scans, packet inspection
+	•	system-hardening/ → Baseline security configurations
+	•	soc-lab/ → Event log investigations & detection exercises
+	•	writeups/ → Structured lab documentation
 
-## Structure
+⸻
 
-- `linux/` → Permissions, processes, services  
-- `networking/` → IP addressing, nmap scans, packet inspection  
-- `writeups/` → Structured lab documentation  
-
----
-
-## Approach
-
-Clear objectives.  
-Reproducible commands.  
-Documented learning.  
-No chaos.
-
----
-
-2026 Goal: Transition into an entry-level cybersecurity role with disciplined Linux and defensive security capability.
+🧠 Approach
+	•	Clear objectives
+	•	Reproducible commands
+	•	Documented findings
+	•	Investigation mindset
+	•	Continuous improvement
