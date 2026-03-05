@@ -1,10 +1,10 @@
 # HTB Elastic SIEM Investigation
 
-This lab documents an investigation performed using the Elastic SIEM environment in Hack The Box.
+This lab documents an investigation conducted in the Elastic SIEM environment on Hack The Box.
 
 ## Objective
 
-Analyze Windows logs in Elastic Discover to identify security events and investigate user account activity.
+Analyse Windows logs in Elastic Discover to identify security events and investigate user account activity.
 
 ## Key Findings
 
