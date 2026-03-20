@@ -1,20 +1,40 @@
-# HTB SOC Skills Assessment
+# SOC Skills Assessment – HTB
 
-## Role
+## Overview
+This repository contains my investigation and analysis of security alerts during a simulated SOC Tier 1 assessment.
 
-SOC Tier 1 Analyst - Eagle Corp
+## Objectives
+- Analyse alerts from SIEM dashboards
+- Apply SOC triage methodology
+- Escalate or validate based on context
 
-## Objective
+## Environment Highlights
+- Cloud-based infrastructure
+- PAW required for admin activity
+- Service accounts follow "-svc" naming
+- Linux systems have minimal activity
+- Root login disabled remotely
 
-Monitor alerts, investigate suspicious activity, and document findings.
+## Methodology
+Each alert is analysed using:
+- Observations
+- Context validation
+- Risk assessment
+- Final verdict
 
-## Structure
+## Alerts Covered
+1. Service account failed logon
+2. Disabled user login attempt
+3. Admin logon outside PAW
+4. Service account RDP usage
+5. Admin group modification
+6. Root SSH login attempts
 
-- notes/ → Environment & assumptions
-- alerts/ → Individual alert analysis
-- investigations/ → Deep dives
-- findings/ → Final conclusions & IOCs
+## Key Takeaways
+- Context is critical in SOC analysis
+- Not all suspicious activity is malicious
+- Privileged account misuse is high risk
 
 ## Status
+✅ Completed
 
-🚧 completed
