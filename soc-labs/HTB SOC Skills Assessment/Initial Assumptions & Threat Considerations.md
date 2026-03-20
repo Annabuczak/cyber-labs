@@ -18,7 +18,7 @@
 ### 4. Service Accounts
 
 - Should:
-    - Not login interactively
+    - Not logged in interactively
     - Not perform unexpected actions
 
 ## Detection Ideas
