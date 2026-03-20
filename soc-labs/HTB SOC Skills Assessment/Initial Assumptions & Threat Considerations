@@ -1,0 +1,29 @@
+# Initial Assumptions & Threat Considerations
+
+## Risk Areas
+
+### 1. Default Admin Account Usage
+
+- High risk of credential compromise
+- Lack of accountability
+
+### 2. PAW Enforcement
+
+- Any admin activity outside PAW = suspicious
+
+### 3. Linux Systems
+
+- Low activity baseline → anomalies are highly suspicious
+
+### 4. Service Accounts
+
+- Should:
+    - Not login interactively
+    - Not perform unexpected actions
+
+## Detection Ideas
+
+- Admin login outside PAW
+- Service account interactive login
+- Sudden Linux activity spike
+- Use of sudo outside normal patterns
