@@ -15,6 +15,3 @@ for _ in range(12):
     password += random.choice(numbers)
 
 print(password)
-print(password)
-/Users/annabuczak/PycharmProjects/Cyber-labs
-
