@@ -1,29 +1,23 @@
 import socket
 
-print(socket.gethostbyname("google.com"))
-
-ip = socket.gethostbyname("google.com")
-print(ip)
-
-target = socket.gethostbyname("google.com")
-print(target)
+target = socket.gethostbyname("bbc.co.uk")
+print("Target IP:", target)
 
 scanner = socket.socket()
-print(scanner)
-
 result = scanner.connect_ex((target, 443))
-print(scanner)
-print(result)
 
 if result == 0:
-    print("Port 443 is closed")
+    print("Port 443 is open")
 else:
     print("Port 443 is closed")
+
+scanner.close()
 
 ports = [22, 80, 443]
 
 for port in ports:
     scanner = socket.socket()
+    scanner.settimeout(3)
 
     result = scanner.connect_ex((target, port))
 
