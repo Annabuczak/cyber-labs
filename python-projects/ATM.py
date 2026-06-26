@@ -16,7 +16,7 @@ while attempt_left >0:
         print("Access granted.")
     elif user_pin != correct_pin:
         print("Incorrect PIN.")
-        attempt_left -= 1
+        attempt_left = 0
         print("Card is blocked. Contact provider")
     else:
         final()
