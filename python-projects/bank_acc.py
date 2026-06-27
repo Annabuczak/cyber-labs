@@ -1,5 +1,3 @@
-
-
 class Current_accout:
     def __init__(self,balance,deposit, withdraw,amount,owner):
 
@@ -40,10 +38,3 @@ amount = Current_accout(balance=10000, deposit=1000, withdraw=10000,amount=100, 
 amount.account_owner()
 amount.withdraw_money()
 withdraw = amount.withdraw_money()
-
-
-
-
-
-
-
