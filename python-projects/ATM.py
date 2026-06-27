@@ -1,49 +1,63 @@
+print("Welcome to Bank of Anna.")
+correct_pin = "1234"
+attempt_left = 3
+
+while attempt_left > 0:
+    user_pin = input("Please enter your PIN: ")
+
+    if user_pin == correct_pin:
+        print("Access granted.")
+        break
+    else:
+        attempt_left -= 1
+        print("Incorrect PIN.")
+
+        if attempt_left == 0:
+            print("Card is blocked. Contact provider")
 
 
-class Current_accout:
-    def __init__(self,balance,deposit, withdraw,amount,owner):
-
-        self.balance = balance
-        self.deposit = deposit
-        self.withdraw = withdraw
-        self.amount = amount
+class CurrentAccount:
+    def __init__(self, owner, balance,correct_pin):
         self.owner = owner
-        self.balance = self.balance + self.deposit - self.withdraw
-        print("Balance is: ", self.balance)
+        self.balance = balance
+        self.correct_pin = correct_pin
 
-    def account_owner(self):
-        print(
-            f"Account holder {self.owner}, has {self.balance}, after paying in {self.deposit}, and taking out {self.withdraw}"
-        )
-        return self.balance + self.deposit - self.withdraw
-
-    def withdraw_money(self):
-       if amount.balance > amount.withdraw:
-        print("You have enough money.")
-       else:
-        print("You do not have enough money.")
-
-
-    def calculate_balance(self):
-        return  self.balance + self.deposit - self.withdraw
-
-
-    def amount(self,amount):
-        if amount.amount(input) > amount.calculate_balance():
-            print("You don't have enough money.")
+    def deposit(self):
+        amount = int(input("Enter amount to deposit: "))
+        self.balance += amount
+        if amount <= 0:
+            print("Incorrect amount.")
         else:
-            print("You have enough money.")
+            print(f"Deposited £{amount} successfully!")
+        return amount
 
 
+    def withdraw(self):
+        amount = int(input("How much would you like to withdraw? "))
+        if amount > self.balance:
+            print("You don't have enough money!")
+            return 0
+        else:
+            self.balance -= amount
+            print(f"Withdrew £{amount} successfully!")
+            return amount
 
-amount = Current_accout(balance=10000, deposit=1000, withdraw=10000,amount=100, owner="")
-amount.account_owner()
-amount.withdraw_money()
-withdraw = amount.withdraw_money()
+    def check_balance(self):
+        return self.balance
 
 
+owner = "Louie"
+start_balance = 0
+account = CurrentAccount(owner, start_balance,correct_pin)
 
+deposited_amount = account.deposit()
+withdrawn_amount = account.withdraw()
+balance = account.check_balance()
 
-
+print(
+    f"{owner}'s balance is £{balance}. "
+    f"{owner} has deposited £{deposited_amount}. "
+    f"{owner} has withdrawn £{withdrawn_amount}."
+)
 
 
