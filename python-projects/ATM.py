@@ -1,5 +1,6 @@
-print("Welcome to Bank of Anna.")
+import sys
 
+print("Welcome to Bank of Anna.")
 
 correct_pin = "1234"
 attempt_left = 3
@@ -16,9 +17,8 @@ while attempt_left > 0:
 
         if attempt_left == 0:
             print("Card is blocked. Contact provider")
+            sys.exit()
 
-class InvalidAmountError(Exception):
-    pass
 
 class InvalidAmountError(Exception):
     pass
@@ -29,47 +29,36 @@ class InsufficientFundsError(Exception):
 
 
 class CurrentAccount:
-    def __init__(self, owner, balance,correct_pin):
+    def __init__(self, owner, balance, correct_pin):
         self.owner = owner
         self.balance = balance
         self.correct_pin = correct_pin
 
-    def deposit(self,amount):
-
-        self.balance += amount
+    def deposit(self, amount):
         if amount <= 0:
-            print("Incorrect amount.")
-        else:
-            print(f"Deposited £{amount} successfully!")
+            raise InvalidAmountError("Amount must be greater than zero.")
+        self.balance += amount
+        print(f"Deposited £{amount} successfully!")
         return amount
 
-
-    def withdraw(self,amount):
-        if amount > 0:
-            print("You don't have enough money!")
+    def withdraw(self, amount):
+        if amount <= 0:
+            raise InvalidAmountError("Amount must be greater than zero.")
+        if amount > self.balance:
             raise InsufficientFundsError("Not enough funds.")
 
-        else:
-            self.balance -= amount
-            print(f"Withdrew £{amount} successfully!")
-            return amount
+        self.balance -= amount
+        print(f"Withdrew £{amount} successfully!")
+        return amount
 
     def check_balance(self):
-        if self.balance <= 0:
-            print("Current balance!")
-            return 0
-        else:
-           print(self.balance)
+        print(f"Your current balance is: £{self.balance}")
+        return self.balance
+
 
 owner = "Louie"
 start_balance = 0
-account = CurrentAccount(owner, start_balance,correct_pin)
-
-
-balance = account.check_balance()
-
-
-
+account = CurrentAccount(owner, start_balance, correct_pin)
 
 while True:
     print("\n===== Bank of Anna =====")
@@ -79,26 +68,31 @@ while True:
     print("4. Exit")
 
     choice = input("Enter your choice: ")
-    try:
 
-        if choice == "1":
-           amount = int(input("Enter amount to deposit: "))
-           account.deposit(amount)
-    except ValueError:
-        print("Please enter numbers.")
-        continue
-    try:
-        if choice == "2":
-           amount = int(input("Enter amount to withdraw: "))
-           account.withdraw(amount)
-    except ValueError:
-        print("Please enter numbers.")
-        continue
+    if choice == "1":
+        try:
+            amount = int(input("Enter amount to deposit: "))
+            account.deposit(amount)
+        except ValueError:
+            print("Please enter a valid number.")
+        except InvalidAmountError as e:
+            print(e)
 
-    if choice == "3":
+    elif choice == "2":
+        try:
+            amount = int(input("Enter amount to withdraw: "))
+            account.withdraw(amount)
+        except ValueError:
+            print("Please enter a valid number.")
+        except (InvalidAmountError, InsufficientFundsError) as e:
+            print(e)
+
+    elif choice == "3":
         account.check_balance()
+
     elif choice == "4":
-        print("Thank you for using Bank of Anna. Goodbye")
-    else:
-        print("Goodbye.")
+        print("Thank you for using Bank of Anna. Goodbye.")
         break
+
+    else:
+        print("Invalid choice. Please try again.")
