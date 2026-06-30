@@ -112,43 +112,64 @@ today_log = DailyLog(
 today_log.calculate_daily_score()
 today_log.show_summary()
 
+reward_levels = [
+    {"min": 0, "max": 49, "reward": "No weekly reward yet"},
+    {"min": 50, "max": 74, "reward": "Tesco snack"},
+    {"min": 75, "max": 99, "reward": "Bikes with Mum"},
+    {"min": 100, "max": 100, "reward": "Choose Friday dinner"},
+]
+
+
 class WeeklySummary:
-    def __init__(self,week_number, week_score,reward_level,mum_notes,date,child, recorded_behaviours):
-
+    def __init__(self, week_number, mum_notes, child, daily_logs):
         self.week_number = week_number
-        self.week_score = week_score
-        self.reward = reward_level
         self.mum_notes = mum_notes
-        self.date = date
         self.child = child
-        self.recorded_behaviours = recorded_behaviours
+        self.daily_logs = daily_logs
 
-    def calculate_average_score(self):
+        self.weekly_score = self.calculate_weekly_score()
+        self.reward = self.get_weekly_reward()
+
+    def calculate_weekly_score(self):
         total = 0
 
-        for behaviour in self.behaviour:
-            total += behaviour.points
+        for log in self.daily_logs:
+            total += log.daily_score
 
-        self.week_score = total
+        if total < 0:
+            total = 0
+
+        if total > 100:
+            total = 100
+
         return total
 
-    def reward_level(self):
+    def get_weekly_reward(self):
+        for level in reward_levels:
+            if level["min"] <= self.weekly_score <= level["max"]:
+                return level["reward"]
 
+        return "No reward"
 
+    def show_summary(self):
+        print("\n===== Weekly Summary =====")
+        print(f"Child: {self.child.name}")
+        print(f"Week: {self.week_number}")
+        print(f"Weekly XP: {self.weekly_score}")
+        print(f"Reward: {self.reward}")
 
-week_log = WeeklySummary(
-    date=datetime.date.today(),
+        print("\nDaily Scores:")
+        for log in self.daily_logs:
+            print(f"{log.date}: {log.daily_score:+}")
+
+        if self.mum_notes:
+            print(f"\nMum's Notes: {self.mum_notes}")
+
+week_1 = WeeklySummary(
     week_number=1,
-    reward_level=1,
     child=child_1,
-    recorded_behaviours=[bed_made, bedroom_tidy, talking_back],
-    week_score=0,
-    mum_notes="Good effort today.",
+    daily_logs=[monday, tuesday],
+    mum_notes="Much calmer this week."
 )
-reward_levels = [
-    {"min": 95, "max": 110, "reward": "Family Adventure"},
-    {"min": 85, "max": 94, "reward": "Extra Nintendo / Choose Dinner"},
-    {"min": 70, "max": 84, "reward": "Normal Privileges"},
-    {"min": 50, "max": 69, "reward": "Reduced Screens"},
-    {"min": 0, "max": 49, "reward": "Rebuild Week"},
-]
+
+week_1.show_summary()
