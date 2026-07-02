@@ -8,6 +8,9 @@ import os
 print("Welcome to RiseUp Kids")
 
 
+
+
+
 class UserAccount:
     def __init__(self, name, email, pin):
         self.name = name
@@ -15,34 +18,65 @@ class UserAccount:
         self.pin = pin
 
 
-
-correct_pin = "1234"
-attempt_left = 3
-
-while attempt_left > 0:
-    user_pin = input("Please enter your PIN: ")
-
-    if user_pin == correct_pin:
-        print("Access granted.")
-        break
-    else:
-        attempt_left -= 1
-        print("Incorrect PIN.")
-
-        if attempt_left == 0:
-            print("Please change your Pin")
-            sys.exit()
-
-
-account = UserAccount("Anna", "buczakanna@gmail.com", pin= "1234")
-print(account.name)
-print(account.email)
-print(account.pin)
-
 class Child:
     def __init__(self, name, age):
         self.name = name
         self.age = age
+
+
+def check_pin(correct_pin):
+    attempts_left = 3
+
+    while attempts_left > 0:
+        user_pin = input("Please enter your PIN: ")
+
+        if user_pin == correct_pin:
+            print("Access granted.")
+            return
+
+        attempts_left -= 1
+        print("Incorrect PIN.")
+
+        if attempts_left == 0:
+            print("Please change your PIN.")
+            sys.exit()
+
+
+def create_new_account():
+    parent_name = input("Parent name: ")
+    email = input("Email: ")
+    pin = input("Create a PIN: ")
+    child_name = input("Child name: ")
+    child_age = input("Child age: ")
+
+    if child_age.isdigit():
+        child_age = int(child_age)
+    else:
+        child_age = 0
+
+    new_account = UserAccount(parent_name, email, pin)
+    new_child = Child(child_name, child_age)
+    print(f"Account created for {new_account.name}.")
+    return new_account, new_child
+
+
+def choose_account():
+    while True:
+        print("\n===== Account =====")
+        print("1. Log into Anna's account")
+        print("2. Create new account")
+
+        account_choice = input("Enter your choice: ")
+
+        if account_choice == "1":
+            existing_account = UserAccount("Anna", "buczakanna@gmail.com", "1234")
+            existing_child = Child("Louie", 10)
+            check_pin(existing_account.pin)
+            return existing_account, existing_child
+        elif account_choice == "2":
+            return create_new_account()
+        else:
+            print("Invalid choice. Please try again.")
 
 
 class Behaviour:
@@ -53,13 +87,10 @@ class Behaviour:
         self.points = points
 
 
-# Children
-child_1 = Child("Louie", 10)
-child_2 = Child("Dotty", 10)
+account, child_1 = choose_account()
 
-print(f"Hello, {child_1.name}'s parent!")
+print(f"Hello, {account.name}!")
 print(f"{child_1.name} is {child_1.age} years old.")
-print(f"{child_2.name} is {child_2.age} years old.")
 
 
 # Behaviours
@@ -142,13 +173,10 @@ class DailyLog:
 today_log = DailyLog(
     date=datetime.date.today(),
     child=child_1,
-    recorded_behaviours=[bed_made, bedroom_tidy, talking_back],
+    recorded_behaviours=[],
     daily_score=0,
-    notes="Good effort today."
+    notes=""
 )
-
-today_log.calculate_daily_score()
-today_log.show_summary()
 
 reward_levels = [
     {"min": 0, "max": 49, "reward": "No weekly reward yet"},
@@ -346,8 +374,6 @@ week_1 = WeeklySummary(
     mum_notes="Much calmer this week."
 )
 
-week_1.show_summary()
-
 class BehaviourCatalogue:
     def __init__(self, behaviours):
         self.behaviours = behaviours
@@ -530,24 +556,41 @@ def add_note_to_day():
     print("Note added.")
 
 
-name = "Anna"
-account = UserAccount
-
 while True:
     print("\n===== RiseUp Kids Menu =====")
-    print("1. View Behaviour Catalogue")
+    print("1. Record Behaviour")
     print("2. View Daily Log")
-    print("3. View Weekly Summary")
-    print("4. View Rewards")
-    print("5. Record Behaviour")
-    print("6. Add Note to Day")
-    print("7. Check Reward Unlocked")
-    print("8. View Progress Graph")
+    print("3. Add Note to Day")
+    print("4. View Weekly Summary")
+    print("5. Check Reward Unlocked")
+    print("6. View Progress Graph")
+    print("7. View Rewards")
+    print("8. View Behaviour Catalogue")
     print("9. Export History")
     print("10. Exit")
 
     choice = input("Enter your choice: ")
     if choice == "1":
+        add_behaviour_to_day()
+    elif choice == "2":
+        log = choose_day()
+
+        if log:
+            log.show_summary()
+    elif choice == "3":
+        add_note_to_day()
+    elif choice == "4":
+        week_1.refresh()
+        week_1.show_summary()
+    elif choice == "5":
+        week_1.refresh()
+        reward_manager.unlock_reward(child_1, week_1.weekly_score)
+    elif choice == "6":
+        week_1.refresh()
+        week_1.show_progress_graph()
+    elif choice == "7":
+        reward_manager.show_rewards()
+    elif choice == "8":
         behaviour_catalogue.show_behaviour_list()
         print("\n1. List Bonus Behaviours")
         print("2. List Deduction Behaviours")
@@ -556,25 +599,6 @@ while True:
             behaviour_catalogue.list_bonus_behaviours()
         elif sub_choice == "2":
             behaviour_catalogue.list_deduction_behaviours()
-    elif choice == "2":
-        log = choose_day()
-
-        if log:
-            log.show_summary()
-    elif choice == "3":
-        week_1.show_summary()
-    elif choice == "4":
-        reward_manager.show_rewards()
-    elif choice == "5":
-        add_behaviour_to_day()
-    elif choice == "6":
-        add_note_to_day()
-    elif choice == "7":
-        week_1.refresh()
-        reward_manager.unlock_reward(child_1, week_1.weekly_score)
-    elif choice == "8":
-        week_1.refresh()
-        week_1.show_progress_graph()
     elif choice == "9":
         week_1.refresh()
         week_1.export_history("riseup_history.csv")
