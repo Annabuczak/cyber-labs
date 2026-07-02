@@ -1,8 +1,12 @@
 # RiseUp Kids app
+import csv
 import datetime
 import sys
+import json
+import os
 
 print("Welcome to RiseUp Kids")
+
 
 class UserAccount:
     def __init__(self, name, email, pin):
@@ -118,6 +122,9 @@ class DailyLog:
         self.recorded_behaviours.append(behaviour)
         self.calculate_daily_score()
 
+    def add_note(self, note):
+        self.notes = note
+
     def show_summary(self):
         print(f"\nDaily log for {self.child.name}")
         print(f"Date: {self.date}")
@@ -195,6 +202,10 @@ class WeeklySummary:
         self.weekly_score = self.calculate_weekly_score()
         self.reward = self.get_weekly_reward()
 
+    def refresh(self):
+        self.weekly_score = self.calculate_weekly_score()
+        self.reward = self.get_weekly_reward()
+
     def calculate_weekly_score(self):
         total = 0
 
@@ -222,12 +233,47 @@ class WeeklySummary:
     def get_weekly_reward(self):
         return self.determine_reward()
 
+    def calculate_weekly_average(self):
+        if len(self.daily_logs) == 0:
+            return 0
+
+        return self.weekly_score / len(self.daily_logs)
+
+    def show_progress_graph(self):
+        print("\n===== Progress Graph =====")
+
+        for log in self.daily_logs:
+            bar = "#" * max(log.daily_score, 0)
+            print(f"{log.date}: {bar} {log.daily_score:+}")
+
+    def export_history(self, filename):
+        with open(filename, "w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(["date", "child", "daily_score", "notes", "behaviours"])
+
+            for log in self.daily_logs:
+                behaviour_names = []
+
+                for behaviour in log.recorded_behaviours:
+                    behaviour_names.append(behaviour.name)
+
+                writer.writerow([
+                    log.date,
+                    log.child.name,
+                    log.daily_score,
+                    log.notes,
+                    ", ".join(behaviour_names)
+                ])
+
+        print(f"History exported to {filename}")
+
     def show_summary(self):
         print("\n===== Weekly Summary =====")
         print(f"Child: {self.child.name}")
         print(f"Week: {self.week_number}")
         print(f"Weekly XP: {self.weekly_score}")
         print(f"Reward: {self.reward}")
+        print(f"Weekly Average: {self.calculate_weekly_average():.1f}")
 
         print("\nDaily Scores:")
         for log in self.daily_logs:
@@ -319,6 +365,15 @@ class BehaviourCatalogue:
 
         return None
 
+    def get_behaviours_by_type(self, reward_type):
+        matching_behaviours = []
+
+        for behaviour in self.behaviours:
+            if behaviour.reward_type == reward_type:
+                matching_behaviours.append(behaviour)
+
+        return matching_behaviours
+
     def list_bonus_behaviours(self):
         print("\n===== Bonus Behaviours =====")
 
@@ -381,6 +436,100 @@ behaviour_catalogue = BehaviourCatalogue([
     refused_to_apologise,
 ])
 
+weekly_logs = {
+    "monday": monday,
+    "tuesday": tuesday,
+    "wednesday": wednesday,
+    "thursday": thursday,
+    "friday": friday,
+    "saturday": saturday,
+    "sunday": sunday,
+}
+
+
+def choose_day():
+    print("\nDays:")
+
+    for day_name in weekly_logs:
+        print(f"- {day_name}")
+
+    day_choice = input("Choose a day: ").lower()
+
+    if day_choice in weekly_logs:
+        return weekly_logs[day_choice]
+
+    print("Day not found.")
+    return None
+
+
+def add_behaviour_to_day():
+    log = choose_day()
+
+    if log is None:
+        return
+
+    while True:
+        print("\nWhat do you want to add?")
+        print("1. Bonus points")
+        print("2. Deduct points")
+        print("3. Show all behaviours")
+        print("4. Done")
+
+        behaviour_type_choice = input("Enter your choice: ")
+
+        if behaviour_type_choice == "1":
+            behaviours = behaviour_catalogue.get_behaviours_by_type("Bonus")
+        elif behaviour_type_choice == "2":
+            behaviours = behaviour_catalogue.get_behaviours_by_type("Deduction")
+        elif behaviour_type_choice == "3":
+            behaviours = behaviour_catalogue.behaviours
+        elif behaviour_type_choice == "4":
+            print("Finished recording behaviours.")
+            break
+        else:
+            print("Invalid choice.")
+            continue
+
+        print("\nChoose a behaviour:")
+
+        for index, behaviour in enumerate(behaviours, start=1):
+            print(f"{index}. {behaviour.name} ({behaviour.points:+})")
+
+        print("0. Back")
+        behaviour_choice = input("Enter behaviour number: ")
+
+        if behaviour_choice == "0":
+            continue
+
+        if not behaviour_choice.isdigit():
+            print("Please enter a number.")
+            continue
+
+        behaviour_index = int(behaviour_choice) - 1
+
+        if behaviour_index < 0 or behaviour_index >= len(behaviours):
+            print("Behaviour number not found.")
+            continue
+
+        behaviour = behaviours[behaviour_index]
+        log.add_behaviour(behaviour)
+        week_1.refresh()
+        print(f"Added {behaviour.name} ({behaviour.points:+}) to {log.date}.")
+        print(f"New daily score: {log.daily_score:+}")
+        print(f"New weekly score: {week_1.weekly_score}")
+
+
+def add_note_to_day():
+    log = choose_day()
+
+    if log is None:
+        return
+
+    note = input("Enter note: ")
+    log.add_note(note)
+    print("Note added.")
+
+
 name = "Anna"
 account = UserAccount
 
@@ -390,7 +539,12 @@ while True:
     print("2. View Daily Log")
     print("3. View Weekly Summary")
     print("4. View Rewards")
-    print("5. Exit")
+    print("5. Record Behaviour")
+    print("6. Add Note to Day")
+    print("7. Check Reward Unlocked")
+    print("8. View Progress Graph")
+    print("9. Export History")
+    print("10. Exit")
 
     choice = input("Enter your choice: ")
     if choice == "1":
@@ -403,12 +557,28 @@ while True:
         elif sub_choice == "2":
             behaviour_catalogue.list_deduction_behaviours()
     elif choice == "2":
-        today_log.show_summary()
+        log = choose_day()
+
+        if log:
+            log.show_summary()
     elif choice == "3":
         week_1.show_summary()
     elif choice == "4":
         reward_manager.show_rewards()
     elif choice == "5":
+        add_behaviour_to_day()
+    elif choice == "6":
+        add_note_to_day()
+    elif choice == "7":
+        week_1.refresh()
+        reward_manager.unlock_reward(child_1, week_1.weekly_score)
+    elif choice == "8":
+        week_1.refresh()
+        week_1.show_progress_graph()
+    elif choice == "9":
+        week_1.refresh()
+        week_1.export_history("riseup_history.csv")
+    elif choice == "10":
         print("Exiting RiseUp Kids. Goodbye!")
         break
     else:
