@@ -8,6 +8,65 @@ import os
 print("Welcome to RiseUp Kids")
 
 
+DATA_FILE = os.path.join(os.path.dirname(__file__), "riseup_data.json")
+
+
+def get_monday_for_date(date):
+    return date - datetime.timedelta(days=date.weekday())
+
+
+def date_from_text(date_text):
+    return datetime.datetime.strptime(date_text, "%Y-%m-%d").date()
+
+
+def load_data():
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, "r") as file:
+            return json.load(file)
+
+    return {"accounts": []}
+
+
+def save_data(data):
+    with open(DATA_FILE, "w") as file:
+        json.dump(data, file, indent=4)
+
+
+def account_key(account, child):
+    return f"{account.email.lower()}-{child.name.lower()}"
+
+
+def default_account_data():
+    return {
+        "name": "Anna",
+        "email": "buczakanna@gmail.com",
+        "pin": "1234",
+        "child": {
+            "name": "Louie",
+            "age": 10
+        },
+        "custom_behaviours": [],
+        "current_week_start": str(get_monday_for_date(datetime.date.today())),
+        "past_weeks": [],
+        "weekly_logs": {}
+    }
+
+
+def get_saved_accounts():
+    data = load_data()
+    accounts = data["accounts"]
+
+    anna_exists = False
+
+    for saved_account in accounts:
+        if saved_account["email"] == "buczakanna@gmail.com" and saved_account["child"]["name"] == "Louie":
+            anna_exists = True
+
+    if not anna_exists:
+        accounts.insert(0, default_account_data())
+
+    return accounts
+
 
 
 
@@ -62,19 +121,33 @@ def create_new_account():
 
 def choose_account():
     while True:
+        saved_accounts = get_saved_accounts()
         print("\n===== Account =====")
-        print("1. Log into Anna's account")
-        print("2. Create new account")
+
+        for index, saved_account in enumerate(saved_accounts, start=1):
+            child_name = saved_account["child"]["name"]
+            print(f"{index}. Log into {saved_account['name']}'s account ({child_name})")
+
+        create_account_choice = len(saved_accounts) + 1
+        print(f"{create_account_choice}. Create new account")
 
         account_choice = input("Enter your choice: ")
 
-        if account_choice == "1":
-            existing_account = UserAccount("Anna", "buczakanna@gmail.com", "1234")
-            existing_child = Child("Louie", 10)
+        if account_choice.isdigit():
+            account_index = int(account_choice) - 1
+        else:
+            print("Invalid choice. Please try again.")
+            continue
+
+        if 0 <= account_index < len(saved_accounts):
+            saved_account = saved_accounts[account_index]
+            existing_account = UserAccount(saved_account["name"], saved_account["email"], saved_account["pin"])
+            existing_child = Child(saved_account["child"]["name"], saved_account["child"]["age"])
             check_pin(existing_account.pin)
-            return existing_account, existing_child
-        elif account_choice == "2":
-            return create_new_account()
+            return existing_account, existing_child, saved_account
+        elif int(account_choice) == create_account_choice:
+            new_account, new_child = create_new_account()
+            return new_account, new_child, None
         else:
             print("Invalid choice. Please try again.")
 
@@ -86,8 +159,16 @@ class Behaviour:
         self.reward_type = reward_type
         self.points = points
 
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "category": self.category,
+            "reward_type": self.reward_type,
+            "points": self.points
+        }
 
-account, child_1 = choose_account()
+
+account, child_1, selected_saved_account = choose_account()
 
 print(f"Hello, {account.name}!")
 print(f"{child_1.name} is {child_1.age} years old.")
@@ -179,10 +260,10 @@ today_log = DailyLog(
 )
 
 reward_levels = [
-    {"min": 0, "max": 49, "reward": "No weekly reward yet"},
-    {"min": 50, "max": 74, "reward": "Tesco snack"},
-    {"min": 75, "max": 99, "reward": "Bikes with Mum"},
-    {"min": 100, "max": 100, "reward": "Choose Friday dinner"},
+    {"min": 0, "max": 9, "reward": "No weekly reward yet"},
+    {"min": 10, "max": 19, "reward": "Tesco snack"},
+    {"min": 20, "max": 34, "reward": "Bikes with Mum"},
+    {"min": 35, "max": 100, "reward": "Choose Friday dinner"},
 ]
 
 
@@ -192,11 +273,11 @@ class RewardManager:
         self.current_reward = "No reward"
 
     def determine_reward(self, weekly_score):
-        if weekly_score >= 100:
+        if weekly_score >= 35:
             self.current_reward = "Choose Friday dinner"
-        elif weekly_score >= 75:
+        elif weekly_score >= 20:
             self.current_reward = "Bikes with Mum"
-        elif weekly_score >= 50:
+        elif weekly_score >= 10:
             self.current_reward = "Tesco snack"
         else:
             self.current_reward = "No weekly reward yet"
@@ -206,7 +287,7 @@ class RewardManager:
     def unlock_reward(self, child, weekly_score):
         reward = self.determine_reward(weekly_score)
 
-        if weekly_score >= 50:
+        if weekly_score >= 10:
             print(f"Congratulations! {child.name} unlocked: {reward}")
         else:
             print(f"{child.name} has not unlocked a reward yet.")
@@ -249,11 +330,11 @@ class WeeklySummary:
         return total
 
     def determine_reward(self):
-        if self.weekly_score >= 100:
+        if self.weekly_score >= 35:
             return "Choose Friday dinner"
-        elif self.weekly_score >= 75:
+        elif self.weekly_score >= 20:
             return "Bikes with Mum"
-        elif self.weekly_score >= 50:
+        elif self.weekly_score >= 10:
             return "Tesco snack"
         else:
             return "No weekly reward yet"
@@ -310,8 +391,14 @@ class WeeklySummary:
         if self.mum_notes:
             print(f"\nMum's Notes: {self.mum_notes}")
 
+if selected_saved_account and "current_week_start" in selected_saved_account:
+    current_week_start = date_from_text(selected_saved_account["current_week_start"])
+else:
+    current_week_start = get_monday_for_date(datetime.date.today())
+
+
 monday = DailyLog(
-    date=datetime.date(2026, 7, 6),
+    date=current_week_start,
     child=child_1,
     recorded_behaviours=[],
     daily_score=0,
@@ -319,7 +406,7 @@ monday = DailyLog(
 )
 
 tuesday = DailyLog(
-    date=datetime.date(2026, 7, 7),
+    date=current_week_start + datetime.timedelta(days=1),
     child=child_1,
     recorded_behaviours=[],
     daily_score=0,
@@ -327,7 +414,7 @@ tuesday = DailyLog(
 )
 
 wednesday = DailyLog(
-    date=datetime.date(2026, 7, 8),
+    date=current_week_start + datetime.timedelta(days=2),
     child=child_1,
     recorded_behaviours=[],
     daily_score=0,
@@ -335,7 +422,7 @@ wednesday = DailyLog(
 )
 
 thursday = DailyLog(
-    date=datetime.date(2026, 7, 9),
+    date=current_week_start + datetime.timedelta(days=3),
     child=child_1,
     recorded_behaviours=[],
     daily_score=0,
@@ -343,7 +430,7 @@ thursday = DailyLog(
 )
 
 friday = DailyLog(
-    date=datetime.date(2026, 7, 10),
+    date=current_week_start + datetime.timedelta(days=4),
     child=child_1,
     recorded_behaviours=[],
     daily_score=0,
@@ -351,7 +438,7 @@ friday = DailyLog(
 )
 
 saturday = DailyLog(
-    date=datetime.date(2026, 7, 11),
+    date=current_week_start + datetime.timedelta(days=5),
     child=child_1,
     recorded_behaviours=[],
     daily_score=0,
@@ -359,7 +446,7 @@ saturday = DailyLog(
 )
 
 sunday = DailyLog(
-    date=datetime.date(2026, 7, 12),
+    date=current_week_start + datetime.timedelta(days=6),
     child=child_1,
     recorded_behaviours=[],
     daily_score=0,
@@ -415,7 +502,14 @@ class BehaviourCatalogue:
                 print(f"{behaviour.name}: {behaviour.points:+}")
 
     def add_behaviour(self, behaviour):
+        existing_behaviour = self.find_behaviour(behaviour.name)
+
+        if existing_behaviour:
+            print("That behaviour already exists.")
+            return False
+
         self.behaviours.append(behaviour)
+        return True
 
     def remove_behaviour(self, behaviour_name):
         behaviour = self.find_behaviour(behaviour_name)
@@ -471,6 +565,200 @@ weekly_logs = {
     "saturday": saturday,
     "sunday": sunday,
 }
+
+
+def set_week_dates(week_start):
+    global current_week_start
+    current_week_start = week_start
+
+    for index, log in enumerate(weekly_logs.values()):
+        log.date = current_week_start + datetime.timedelta(days=index)
+
+
+def clear_current_week(week_start):
+    set_week_dates(week_start)
+
+    for log in weekly_logs.values():
+        log.recorded_behaviours = []
+        log.daily_score = 0
+        log.notes = ""
+
+    week_1.refresh()
+
+
+def get_current_account_data(data):
+    current_key = account_key(account, child_1)
+
+    for saved_account in data["accounts"]:
+        saved_child = Child(saved_account["child"]["name"], saved_account["child"]["age"])
+        saved_user = UserAccount(saved_account["name"], saved_account["email"], saved_account["pin"])
+
+        if account_key(saved_user, saved_child) == current_key:
+            return saved_account
+
+    return None
+
+
+def create_week_snapshot():
+    week_1.refresh()
+    daily_logs = {}
+
+    for day_name, log in weekly_logs.items():
+        behaviour_names = []
+
+        for behaviour in log.recorded_behaviours:
+            behaviour_names.append(behaviour.name)
+
+        daily_logs[day_name] = {
+            "date": str(log.date),
+            "score": log.daily_score,
+            "notes": log.notes,
+            "behaviours": behaviour_names
+        }
+
+    return {
+        "week_start": str(current_week_start),
+        "week_end": str(current_week_start + datetime.timedelta(days=6)),
+        "weekly_score": week_1.weekly_score,
+        "reward": week_1.reward,
+        "daily_logs": daily_logs
+    }
+
+
+def save_app_data():
+    data = load_data()
+    saved_account = get_current_account_data(data)
+
+    if saved_account is None:
+        saved_account = {
+            "name": account.name,
+            "email": account.email,
+            "pin": account.pin,
+            "child": {
+                "name": child_1.name,
+                "age": child_1.age
+            },
+            "custom_behaviours": [],
+            "current_week_start": str(current_week_start),
+            "past_weeks": [],
+            "weekly_logs": {}
+        }
+        data["accounts"].append(saved_account)
+
+    custom_behaviours = []
+
+    for behaviour in behaviour_catalogue.behaviours:
+        custom_marker = getattr(behaviour, "custom", False)
+
+        if custom_marker:
+            custom_behaviours.append(behaviour.to_dict())
+
+    saved_account["custom_behaviours"] = custom_behaviours
+    saved_account["current_week_start"] = str(current_week_start)
+    saved_account.setdefault("past_weeks", [])
+    saved_account["weekly_logs"] = {}
+
+    for day_name, log in weekly_logs.items():
+        behaviour_names = []
+
+        for behaviour in log.recorded_behaviours:
+            behaviour_names.append(behaviour.name)
+
+        saved_account["weekly_logs"][day_name] = {
+            "notes": log.notes,
+            "behaviours": behaviour_names
+        }
+
+    save_data(data)
+    print("Saved.")
+
+
+def load_custom_behaviours():
+    data = load_data()
+    saved_account = get_current_account_data(data)
+
+    if saved_account is None:
+        return
+
+    for saved_behaviour in saved_account.get("custom_behaviours", []):
+        behaviour = Behaviour(
+            saved_behaviour["name"],
+            saved_behaviour["category"],
+            saved_behaviour["reward_type"],
+            saved_behaviour["points"]
+        )
+        behaviour.custom = True
+        behaviour_catalogue.add_behaviour(behaviour)
+
+
+def load_weekly_logs():
+    data = load_data()
+    saved_account = get_current_account_data(data)
+
+    if saved_account is None:
+        return
+
+    saved_week_start = saved_account.get("current_week_start")
+
+    if saved_week_start:
+        set_week_dates(date_from_text(saved_week_start))
+
+    saved_weekly_logs = saved_account.get("weekly_logs", {})
+
+    for day_name, saved_log in saved_weekly_logs.items():
+        if day_name in weekly_logs:
+            log = weekly_logs[day_name]
+            log.notes = saved_log.get("notes", "")
+            log.recorded_behaviours = []
+
+            for behaviour_name in saved_log.get("behaviours", []):
+                behaviour = behaviour_catalogue.find_behaviour(behaviour_name)
+
+                if behaviour:
+                    log.recorded_behaviours.append(behaviour)
+
+            log.calculate_daily_score()
+
+    week_1.refresh()
+
+
+load_custom_behaviours()
+load_weekly_logs()
+
+
+def check_for_new_week():
+    data = load_data()
+    saved_account = get_current_account_data(data)
+
+    if saved_account is None:
+        save_app_data()
+        return
+
+    today_week_start = get_monday_for_date(datetime.date.today())
+
+    if current_week_start >= today_week_start:
+        return
+
+    print("\nA new week has started.")
+    print(f"Current saved week: {current_week_start} to {current_week_start + datetime.timedelta(days=6)}")
+    print(f"This week starts: {today_week_start}")
+    print("1. Save old week and start a fresh week")
+    print("2. Keep working on the old week for now")
+
+    reset_choice = input("Enter your choice: ")
+
+    if reset_choice == "1":
+        saved_account.setdefault("past_weeks", [])
+        saved_account["past_weeks"].append(create_week_snapshot())
+        save_data(data)
+        clear_current_week(today_week_start)
+        save_app_data()
+        print("New week started.")
+    else:
+        print("Keeping the old week for now.")
+
+
+check_for_new_week()
 
 
 def choose_day():
@@ -540,6 +828,7 @@ def add_behaviour_to_day():
         behaviour = behaviours[behaviour_index]
         log.add_behaviour(behaviour)
         week_1.refresh()
+        save_app_data()
         print(f"Added {behaviour.name} ({behaviour.points:+}) to {log.date}.")
         print(f"New daily score: {log.daily_score:+}")
         print(f"New weekly score: {week_1.weekly_score}")
@@ -553,7 +842,96 @@ def add_note_to_day():
 
     note = input("Enter note: ")
     log.add_note(note)
+    save_app_data()
     print("Note added.")
+
+
+def create_custom_behaviour():
+    name = input("Behaviour name: ")
+    category = input("Category: ")
+
+    print("\nBehaviour type:")
+    print("1. Bonus")
+    print("2. Deduction")
+    reward_type_choice = input("Enter your choice: ")
+
+    if reward_type_choice == "1":
+        reward_type = "Bonus"
+    elif reward_type_choice == "2":
+        reward_type = "Deduction"
+    else:
+        print("Invalid behaviour type.")
+        return
+
+    points_text = input("Points: ")
+
+    if not points_text.isdigit():
+        print("Please enter a whole number for points.")
+        return
+
+    points = int(points_text)
+
+    if reward_type == "Deduction":
+        points = -points
+
+    behaviour = Behaviour(name, category, reward_type, points)
+    behaviour.custom = True
+    added = behaviour_catalogue.add_behaviour(behaviour)
+
+    if added:
+        save_app_data()
+        print(f"Added new behaviour: {behaviour.name} ({behaviour.points:+})")
+
+
+def view_past_weeks():
+    data = load_data()
+    saved_account = get_current_account_data(data)
+
+    if saved_account is None:
+        print("No saved account found.")
+        return
+
+    past_weeks = saved_account.get("past_weeks", [])
+
+    if len(past_weeks) == 0:
+        print("No past weeks yet.")
+        return
+
+    print("\n===== Past Weeks =====")
+
+    for index, past_week in enumerate(past_weeks, start=1):
+        print(f"{index}. {past_week['week_start']} to {past_week['week_end']} - {past_week['weekly_score']} XP - {past_week['reward']}")
+
+    week_choice = input("Choose a week number to view, or 0 to go back: ")
+
+    if week_choice == "0":
+        return
+
+    if not week_choice.isdigit():
+        print("Please enter a number.")
+        return
+
+    week_index = int(week_choice) - 1
+
+    if week_index < 0 or week_index >= len(past_weeks):
+        print("Week not found.")
+        return
+
+    past_week = past_weeks[week_index]
+    print("\n===== Past Weekly Summary =====")
+    print(f"Week: {past_week['week_start']} to {past_week['week_end']}")
+    print(f"Weekly XP: {past_week['weekly_score']}")
+    print(f"Reward: {past_week['reward']}")
+    print("\nDaily Scores:")
+
+    for day_name, log in past_week["daily_logs"].items():
+        print(f"{day_name.title()} ({log['date']}): {log['score']:+}")
+
+        for behaviour_name in log["behaviours"]:
+            print(f"  - {behaviour_name}")
+
+        if log["notes"]:
+            print(f"  Notes: {log['notes']}")
 
 
 while True:
@@ -566,8 +944,10 @@ while True:
     print("6. View Progress Graph")
     print("7. View Rewards")
     print("8. View Behaviour Catalogue")
-    print("9. Export History")
-    print("10. Exit")
+    print("9. Add Your Own Behaviour")
+    print("10. View Past Weeks")
+    print("11. Export History")
+    print("12. Exit")
 
     choice = input("Enter your choice: ")
     if choice == "1":
@@ -600,9 +980,14 @@ while True:
         elif sub_choice == "2":
             behaviour_catalogue.list_deduction_behaviours()
     elif choice == "9":
+        create_custom_behaviour()
+    elif choice == "10":
+        view_past_weeks()
+    elif choice == "11":
         week_1.refresh()
         week_1.export_history("riseup_history.csv")
-    elif choice == "10":
+    elif choice == "12":
+        save_app_data()
         print("Exiting RiseUp Kids. Goodbye!")
         break
     else:
