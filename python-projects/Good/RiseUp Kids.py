@@ -1,8 +1,39 @@
 # RiseUp Kids app
 import datetime
+import sys
 
 print("Welcome to RiseUp Kids")
 
+class UserAccount:
+    def __init__(self, name, email, pin):
+        self.name = name
+        self.email = email
+        self.pin = pin
+
+
+
+correct_pin = "1234"
+attempt_left = 3
+
+while attempt_left > 0:
+    user_pin = input("Please enter your PIN: ")
+
+    if user_pin == correct_pin:
+        print("Access granted.")
+        break
+    else:
+        attempt_left -= 1
+        print("Incorrect PIN.")
+
+        if attempt_left == 0:
+            print("Please change your Pin")
+            sys.exit()
+
+
+account = UserAccount("Anna", "buczakanna@gmail.com", pin= "1234")
+print(account.name)
+print(account.email)
+print(account.pin)
 
 class Child:
     def __init__(self, name, age):
@@ -349,3 +380,36 @@ behaviour_catalogue = BehaviourCatalogue([
     took_frustration_out_on_buddy,
     refused_to_apologise,
 ])
+
+name = "Anna"
+account = UserAccount
+
+while True:
+    print("\n===== RiseUp Kids Menu =====")
+    print("1. View Behaviour Catalogue")
+    print("2. View Daily Log")
+    print("3. View Weekly Summary")
+    print("4. View Rewards")
+    print("5. Exit")
+
+    choice = input("Enter your choice: ")
+    if choice == "1":
+        behaviour_catalogue.show_behaviour_list()
+        print("\n1. List Bonus Behaviours")
+        print("2. List Deduction Behaviours")
+        sub_choice = input("Enter your choice: ")
+        if sub_choice == "1":
+            behaviour_catalogue.list_bonus_behaviours()
+        elif sub_choice == "2":
+            behaviour_catalogue.list_deduction_behaviours()
+    elif choice == "2":
+        today_log.show_summary()
+    elif choice == "3":
+        week_1.show_summary()
+    elif choice == "4":
+        reward_manager.show_rewards()
+    elif choice == "5":
+        print("Exiting RiseUp Kids. Goodbye!")
+        break
+    else:
+        print("Invalid choice. Please try again.")
