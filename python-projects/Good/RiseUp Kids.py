@@ -68,6 +68,34 @@ def get_saved_accounts():
     return accounts
 
 
+def save_new_account(account, child):
+    data = load_data()
+
+    for saved_account in data["accounts"]:
+        same_email = saved_account["email"].lower() == account.email.lower()
+        same_child = saved_account["child"]["name"].lower() == child.name.lower()
+
+        if same_email and same_child:
+            return saved_account
+
+    saved_account = {
+        "name": account.name,
+        "email": account.email,
+        "pin": account.pin,
+        "child": {
+            "name": child.name,
+            "age": child.age
+        },
+        "custom_behaviours": [],
+        "current_week_start": str(get_monday_for_date(datetime.date.today())),
+        "past_weeks": [],
+        "weekly_logs": {}
+    }
+    data["accounts"].append(saved_account)
+    save_data(data)
+    return saved_account
+
+
 
 
 class UserAccount:
@@ -115,6 +143,7 @@ def create_new_account():
 
     new_account = UserAccount(parent_name, email, pin)
     new_child = Child(child_name, child_age)
+    save_new_account(new_account, new_child)
     print(f"Account created for {new_account.name}.")
     return new_account, new_child
 
