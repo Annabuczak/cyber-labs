@@ -165,10 +165,73 @@ class WeeklySummary:
         if self.mum_notes:
             print(f"\nMum's Notes: {self.mum_notes}")
 
+monday = DailyLog(
+    date=datetime.date(2026, 7, 6),
+    child=child_1,
+    recorded_behaviours=[bed_made, bedroom_tidy],
+    daily_score=0,
+    notes="Good start to the week."
+)
+monday.calculate_daily_score()
+
+tuesday = DailyLog(
+    date=datetime.date(2026, 7, 7),
+    child=child_1,
+    recorded_behaviours=[bed_made, talking_back],
+    daily_score=0,
+    notes="Some good effort, but a bit of talking back."
+)
+tuesday.calculate_daily_score()
+
+wednesday = DailyLog(
+    date=datetime.date(2026, 7, 8),
+    child=child_1,
+    recorded_behaviours=[buddy_walked, helped_mum_without_being_asked],
+    daily_score=0,
+    notes="Helpful day."
+)
+wednesday.calculate_daily_score()
+
+thursday = DailyLog(
+    date=datetime.date(2026, 7, 9),
+    child=child_1,
+    recorded_behaviours=[bedroom_messy, ignored_instruction],
+    daily_score=0,
+    notes="Needed a few reminders."
+)
+thursday.calculate_daily_score()
+
+friday = DailyLog(
+    date=datetime.date(2026, 7, 10),
+    child=child_1,
+    recorded_behaviours=[good_sportsmanship, apologies_sincerely],
+    daily_score=0,
+    notes="Handled things well."
+)
+friday.calculate_daily_score()
+
+saturday = DailyLog(
+    date=datetime.date(2026, 7, 11),
+    child=child_1,
+    recorded_behaviours=[included_another_child, control_frustration],
+    daily_score=0,
+    notes="Kind and calm."
+)
+saturday.calculate_daily_score()
+
+sunday = DailyLog(
+    date=datetime.date(2026, 7, 12),
+    child=child_1,
+    recorded_behaviours=[bed_made, honest_about_mistakes],
+    daily_score=0,
+    notes="Finished the week well."
+)
+sunday.calculate_daily_score()
+
 week_1 = WeeklySummary(
     week_number=1,
     child=child_1,
-    daily_logs=[monday, tuesday],
+    daily_logs=[monday, tuesday, wednesday, thursday, friday, saturday, sunday],
     mum_notes="Much calmer this week."
 )
 
