@@ -120,6 +120,40 @@ reward_levels = [
 ]
 
 
+class RewardManager:
+    def __init__(self, reward_levels):
+        self.reward_levels = reward_levels
+        self.current_reward = "No reward"
+
+    def determine_reward(self, weekly_score):
+        if weekly_score >= 100:
+            self.current_reward = "Choose Friday dinner"
+        elif weekly_score >= 75:
+            self.current_reward = "Bikes with Mum"
+        elif weekly_score >= 50:
+            self.current_reward = "Tesco snack"
+        else:
+            self.current_reward = "No weekly reward yet"
+
+        return self.current_reward
+
+    def unlock_reward(self, child, weekly_score):
+        reward = self.determine_reward(weekly_score)
+
+        if weekly_score >= 50:
+            print(f"Congratulations! {child.name} unlocked: {reward}")
+        else:
+            print(f"{child.name} has not unlocked a reward yet.")
+
+    def show_rewards(self):
+        print("\n===== Rewards =====")
+
+        for level in self.reward_levels:
+            print(f"{level['min']} - {level['max']} XP: {level['reward']}")
+
+reward_manager = RewardManager(reward_levels)
+
+
 class WeeklySummary:
     def __init__(self, week_number, mum_notes, child, daily_logs):
         self.week_number = week_number
@@ -144,12 +178,18 @@ class WeeklySummary:
 
         return total
 
-    def get_weekly_reward(self):
-        for level in reward_levels:
-            if level["min"] <= self.weekly_score <= level["max"]:
-                return level["reward"]
+    def determine_reward(self):
+        if self.weekly_score >= 100:
+            return "Choose Friday dinner"
+        elif self.weekly_score >= 75:
+            return "Bikes with Mum"
+        elif self.weekly_score >= 50:
+            return "Tesco snack"
+        else:
+            return "No weekly reward yet"
 
-        return "No reward"
+    def get_weekly_reward(self):
+        return self.determine_reward()
 
     def show_summary(self):
         print("\n===== Weekly Summary =====")
@@ -168,65 +208,59 @@ class WeeklySummary:
 monday = DailyLog(
     date=datetime.date(2026, 7, 6),
     child=child_1,
-    recorded_behaviours=[bed_made, bedroom_tidy],
+    recorded_behaviours=[],
     daily_score=0,
-    notes="Good start to the week."
+    notes=""
 )
-monday.calculate_daily_score()
 
 tuesday = DailyLog(
     date=datetime.date(2026, 7, 7),
     child=child_1,
-    recorded_behaviours=[bed_made, talking_back],
+    recorded_behaviours=[],
     daily_score=0,
-    notes="Some good effort, but a bit of talking back."
+    notes=""
 )
-tuesday.calculate_daily_score()
 
 wednesday = DailyLog(
     date=datetime.date(2026, 7, 8),
     child=child_1,
-    recorded_behaviours=[buddy_walked, helped_mum_without_being_asked],
+    recorded_behaviours=[],
     daily_score=0,
-    notes="Helpful day."
+    notes=""
 )
-wednesday.calculate_daily_score()
 
 thursday = DailyLog(
     date=datetime.date(2026, 7, 9),
     child=child_1,
-    recorded_behaviours=[bedroom_messy, ignored_instruction],
+    recorded_behaviours=[],
     daily_score=0,
-    notes="Needed a few reminders."
+    notes=""
 )
-thursday.calculate_daily_score()
 
 friday = DailyLog(
     date=datetime.date(2026, 7, 10),
     child=child_1,
-    recorded_behaviours=[good_sportsmanship, apologies_sincerely],
+    recorded_behaviours=[],
     daily_score=0,
-    notes="Handled things well."
+    notes=""
 )
-friday.calculate_daily_score()
 
 saturday = DailyLog(
     date=datetime.date(2026, 7, 11),
     child=child_1,
-    recorded_behaviours=[included_another_child, control_frustration],
+    recorded_behaviours=[],
     daily_score=0,
-    notes="Kind and calm."
+    notes=""
 )
-saturday.calculate_daily_score()
 
 sunday = DailyLog(
     date=datetime.date(2026, 7, 12),
     child=child_1,
-    recorded_behaviours=[bed_made, honest_about_mistakes],
+    recorded_behaviours=[],
     daily_score=0,
-    notes="Finished the week well."
+    notes=""
 )
-sunday.calculate_daily_score()
+
 
 week_1 = WeeklySummary(
     week_number=1,
@@ -236,3 +270,82 @@ week_1 = WeeklySummary(
 )
 
 week_1.show_summary()
+
+class BehaviourCatalogue:
+    def __init__(self, behaviours):
+        self.behaviours = behaviours
+
+    def show_behaviour_list(self):
+        print("\n===== Behaviour Catalogue =====")
+
+        for behaviour in self.behaviours:
+            print(f"{behaviour.name} | {behaviour.category} | {behaviour.reward_type} | {behaviour.points:+}")
+
+    def find_behaviour(self, behaviour_name):
+        for behaviour in self.behaviours:
+            if behaviour.name.lower() == behaviour_name.lower():
+                return behaviour
+
+        return None
+
+    def list_bonus_behaviours(self):
+        print("\n===== Bonus Behaviours =====")
+
+        for behaviour in self.behaviours:
+            if behaviour.reward_type == "Bonus":
+                print(f"{behaviour.name}: {behaviour.points:+}")
+
+    def list_deduction_behaviours(self):
+        print("\n===== Deduction Behaviours =====")
+
+        for behaviour in self.behaviours:
+            if behaviour.reward_type == "Deduction":
+                print(f"{behaviour.name}: {behaviour.points:+}")
+
+    def add_behaviour(self, behaviour):
+        self.behaviours.append(behaviour)
+
+    def remove_behaviour(self, behaviour_name):
+        behaviour = self.find_behaviour(behaviour_name)
+
+        if behaviour:
+            self.behaviours.remove(behaviour)
+            print(f"{behaviour.name} removed.")
+        else:
+            print("Behaviour not found.")
+
+behaviour_catalogue = BehaviourCatalogue([
+    bed_made,
+    bedroom_tidy,
+    buddy_walked,
+    helped_mum_without_being_asked,
+    takes_no_as_answer,
+    good_sportsmanship,
+    honest_about_mistakes,
+    good_behaviour_mum_said_so,
+    apologies_sincerely,
+    included_another_child,
+    control_frustration,
+    bed_not_made,
+    bedroom_messy,
+    clothes_on_bathroom_floor,
+    shoes_left_in_hallway,
+    plate_left_upstairs,
+    didnt_clean_after_eating,
+    didnt_walk_buddy_when_asked,
+    didnt_complete_chore,
+    talking_back,
+    swearing,
+    slamming_door,
+    ignored_instruction,
+    asked_again_after_no,
+    begged_for_youtube,
+    begged_for_phone,
+    begged_for_computer,
+    asked_for_tesco_money_after_refusing_chores,
+    poor_sportsmanship,
+    threatened_another_child,
+    deliberately_rude,
+    took_frustration_out_on_buddy,
+    refused_to_apologise,
+])
