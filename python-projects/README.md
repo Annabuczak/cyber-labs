@@ -1,96 +1,274 @@
-Cyber Labs
+I think it’s time to make your GitHub look like someone who is genuinely building toward a cybersecurity career. You’ve got enough projects now that a polished repository will make a much better impression on recruiters.
 
-About
+Here’s a README I’d be happy to put at the top of your repository.
 
-This repository contains practical cybersecurity and Python projects completed as part of my transition into the cybersecurity industry while studying for a BSc (Hons) Cyber Security.
+⸻
 
-The purpose of this repository is to document my learning journey and demonstrate hands-on experience with Python programming, networking, security concepts and security operations fundamentals.
+👋 Hi, I’m Anna
 
-Projects
+I’m a Cyber Security student at the University of Essex, currently transitioning from a career as a London taxi driver into IT and cybersecurity.
 
-Password Generator
+I enjoy building Python projects that help me learn software development, object-oriented programming, automation and security concepts through practical experience.
 
-A Python application that generates secure passwords using configurable character sets.
+This repository contains my learning projects, university coursework and cybersecurity practice exercises.
 
-Skills demonstrated:
+⸻
 
-* Variables
+🎯 Current Goals
+
+* Complete my BSc (Hons) in Cyber Security
+* Develop strong Python programming skills
+* Build a solid portfolio of practical projects
+* Prepare for CompTIA Security+
+* Learn SOC operations, Linux and Splunk
+* Secure an entry-level IT or Cyber Security role
+
+⸻
+
+📂 Projects
+
+🎮 RiseUp Kids
+
+A behaviour and reward tracking application for parents and children.
+
+Features
+
+* Behaviour tracking
+* Points system
+* Reward unlocking
+* Parent dashboard
+* Modern Python application
+
+Skills used
+
+* Object-Oriented Programming
+* Classes & Objects
+* Encapsulation
+* File handling
+* Project organisation
+
+⸻
+
+🏦 ATM System
+
+Simple banking simulation demonstrating OOP concepts.
+
+Features
+
+* PIN authentication
+* Balance checking
+* Deposits
+* Withdrawals
+* Input validation
+
+Concepts
+
+* Classes
+* Methods
+* Encapsulation
 * Loops
+* Conditionals
+
+⸻
+
+💰 Financial Transaction Program
+
+Practice project for handling financial operations and exception handling.
+
+Topics
+
+* Validation
+* Error handling
 * User input
-* Random number generation
-* String manipulation
+* Functions
 
-Log Analyzer
+⸻
 
-A Python log analysis tool that reads log files and identifies security-related events.
+🔐 Password Audit Tool
 
-Features:
+Checks password strength using common security principles.
 
-* Counts failed login attempts
-* Counts INFO messages
-* Counts WARNING messages
-* Counts ERROR messages
-* Generates a summary report
+Topics
 
-Skills demonstrated:
+* String processing
+* Security basics
+* Input validation
+
+⸻
+
+🔑 Password Generator
+
+Random password generator with configurable complexity.
+
+Topics
+
+* Random module
+* Lists
+* Strings
+* Functions
+
+⸻
+
+🌐 Port Scanner
+
+Basic TCP port scanner written in Python.
+
+Topics
+
+* socket module
+* Networking fundamentals
+* Port scanning
+
+⸻
+
+📜 Log File Parser
+
+Reads server log files and extracts useful security information.
+
+Topics
 
 * File handling
-* Loops
-* Conditional statements
-* Data processing
-* Basic security monitoring concepts
+* Log analysis
+* String parsing
 
-Port Scanner
+⸻
 
-A basic TCP port scanner that performs DNS resolution and checks whether common ports are open on a target host.
+🛡️ SOC Analyst Simulator
 
-Features:
+Small simulation of tasks performed by a Security Operations Centre analyst.
 
-* Hostname to IP resolution
-* TCP connectivity testing
-* Open/closed port detection
+Topics
 
-Skills demonstrated:
+* Security alerts
+* Event analysis
+* Python logic
 
-* Python sockets
-* Networking fundamentals
-* DNS concepts
-* TCP/IP basics
+⸻
 
-Security Fundamentals Programs
+🦠 Malware Study
 
-The repository also contains Python study programs covering key cybersecurity topics, including:
+Educational project containing notes and simple Python exercises related to malware concepts.
 
-* Security Fundamentals
-* Social Engineering
-* Malware
-* Threat Actors
-* Physical Security
+⸻
 
-These programs were developed to reinforce concepts learned through university study and independent research.
+🏢 Physical Security Study
 
-Technologies Used
+CompTIA Security+ revision project covering physical security concepts.
+
+⸻
+
+🎭 Social Engineering Study
+
+Security+ revision covering:
+
+* Phishing
+* Vishing
+* Smishing
+* Impersonation
+* Human attack techniques
+
+⸻
+
+👥 Threat Actors Study
+
+Overview of common threat actors including:
+
+* Script Kiddies
+* Organised Crime
+* Nation States
+* Hacktivists
+* Insider Threats
+
+⸻
+
+🔒 Security Fundamentals
+
+Python exercises used while studying Security+ concepts.
+
+⸻
+
+🛠 Technologies
 
 * Python 3
 * Git
 * GitHub
-* macOS
+* Object-Oriented Programming
+* VS Code
 * PyCharm
 
-Current Learning Focus
+Currently learning
 
-* Python Programming
-* Object-Oriented Programming (OOP)
-* Networking Fundamentals
-* Security Operations (SOC)
-* Linux Fundamentals
-* CompTIA Security+
-* Cyber Security Fundamentals
+* Linux
+* Networking
+* Splunk
+* Security+
+* Design Patterns
 
-Author
+⸻
 
-Anna Buczak
+📚 What I’m Learning
 
-Cyber Security Student | Aspiring SOC Analyst
+* Object-Oriented Programming
+* Design Patterns
+* Networking
+* Python
+* Cyber Security
+* Secure Coding
+* Automation
 
-Currently studying for a BSc (Hons) Cyber Security while developing practical skills through hands-on projects and independent learning.
+⸻
+
+🚀 Future Projects
+
+* Password Manager
+* Vulnerability Scanner
+* Log Analysis Tool
+* Network Monitoring Dashboard
+* File Integrity Monitor
+* SIEM Log Parser
+* API Security Scanner
+
+⸻
+
+💡 About This Repository
+
+Most projects were built as part of my university studies, personal learning and cybersecurity practice.
+
+The goal isn’t to create perfect software—it’s to demonstrate continuous learning, problem-solving and improvement over time.
+
+⸻
+
+📫 Connect with me
+
+* LinkedIn: (add your profile link)
+* GitHub: (your GitHub username)
+
+⸻
+
+One suggestion
+
+I would also clean up the repository itself. At the moment, everything is in the root folder. I’d organise it like this:
+
+📦 Python-Learning
+│
+├── RiseUpKids/
+├── ATM-System/
+├── Password-Generator/
+├── Password-Audit-Tool/
+├── Port-Scanner/
+├── Log-Parser/
+├── Financial-Transaction/
+├── SOC-Analyst-Simulator/
+├── Security-Studies/
+│   ├── Malware
+│   ├── Social Engineering
+│   ├── Threat Actors
+│   ├── Physical Security
+│   └── Security Fundamentals
+│
+├── assets/
+│   └── screenshots/
+│
+└── README.md
+
+This structure immediately looks more professional and makes it easier for recruiters or hiring managers to browse your work. Combined with the RiseUp Kids project, it would present a portfolio that clearly shows you’re progressing from learning Python to building increasingly substantial applications.
