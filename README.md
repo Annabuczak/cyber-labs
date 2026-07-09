@@ -1,40 +1,33 @@
-Cybersecurity Student | Aspiring SOC Analyst
+# Cyber Labs
 
-Cybersecurity student transitioning into Security Operations.
+Hands-on cybersecurity lab notes covering Linux, networking, system hardening, log analysis, and SOC investigation practice.
 
-This repository documents hands-on labs, networking fundamentals, system hardening exercises, and detection investigations as I build toward a SOC Analyst role in a Blue Team environment.
+I use this repository to document practical defensive security work as I build toward an entry-level Blue Team or SOC Analyst role. The focus is on reproducible exercises, clear notes, and investigation thinking.
 
-My focus is on developing practical defensive skills, understanding system behaviour, and learning how to detect and analyse security events — not just completing labs.
+## Focus Areas
 
-⸻
+- Linux system fundamentals
+- Service management with `systemctl`
+- Permissions and process control
+- Windows Event Log analysis
+- Network reconnaissance with tools such as Nmap
+- Packet inspection and traffic analysis
+- Detection thinking and investigation writeups
+- Reproducible lab documentation
 
-🧪 Cyber Labs
+## Structure
 
-Structured documentation of practical Linux, Windows, and networking lab work designed to build strong SOC foundations.
+- `linux/` - Permissions, processes, services, and Linux fundamentals.
+- `networking/` - IP addressing, Nmap scans, and packet inspection.
+- `system-hardening/` - Baseline security configuration notes.
+- `soc-labs/` - Event log investigations and detection exercises.
+- `python-projects/` - Security-focused Python practice tools and study scripts.
+- `writeups/` - Structured lab documentation.
 
-This repository focuses on:
-	•	Linux system fundamentals
-	•	Service management & systemctl
-	•	Permissions & process control
-	•	Windows Event Log analysis
-	•	Basic network reconnaissance (nmap, packet inspection)
-	•	Detection thinking & investigation writeups
-	•	Reproducible lab exercises
+## Approach
 
-⸻
-
-📁 Structure
-	•	linux/ → Permissions, processes, services
-	•	networking/ → IP addressing, Nmap scans, packet inspection
-	•	system-hardening/ → Baseline security configurations
-	•	soc-lab/ → Event log investigations & detection exercises
-	•	writeups/ → Structured lab documentation
-
-⸻
-
-🧠 Approach
-	•	Clear objectives
-	•	Reproducible commands
-	•	Documented findings
-	•	Investigation mindset
-	•	Continuous improvement
+- Define clear objectives.
+- Record reproducible commands.
+- Document findings and assumptions.
+- Explain the investigation process, not just the answer.
+- Improve notes as my understanding grows.
