@@ -15,10 +15,23 @@ To check the status of a specific service:
 
 ```bash
 systemctl status cups
+```
 
-# Stopping a service
+## Stopping a Service
+
+```bash
 sudo systemctl stop cups
+```
 
-# Verifying service closure
+## Verifying Service Closure
+
+```bash
 nmap 127.0.0.1
 nmap -p 631 127.0.0.1
+```
+
+## What I Learned
+
+- `systemctl status` shows whether a service is active, inactive, or failed.
+- Stopping an unnecessary service can reduce exposed local services.
+- Nmap can help verify whether a service port is still reachable after stopping the service.

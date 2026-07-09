@@ -1,28 +1,23 @@
 # Cyber Labs
 
-Hands-on cybersecurity lab notes covering Linux, networking, system hardening, log analysis, and SOC investigation practice.
+Hands-on cybersecurity lab notes covering Linux service management, log analysis, Python security tools, and SOC investigation practice.
 
 I use this repository to document practical defensive security work as I build toward an entry-level Blue Team or SOC Analyst role. The focus is on reproducible exercises, clear notes, and investigation thinking.
 
 ## Focus Areas
 
-- Linux system fundamentals
+- Linux service management
 - Service management with `systemctl`
-- Permissions and process control
 - Windows Event Log analysis
-- Network reconnaissance with tools such as Nmap
-- Packet inspection and traffic analysis
 - Detection thinking and investigation writeups
+- Python scripting for small security tools
 - Reproducible lab documentation
 
 ## Structure
 
-- `linux/` - Permissions, processes, services, and Linux fundamentals.
-- `networking/` - IP addressing, Nmap scans, and packet inspection.
-- `system-hardening/` - Baseline security configuration notes.
+- `linux/services/` - Linux service management notes and command practice.
 - `soc-labs/` - Event log investigations and detection exercises.
 - `python-projects/` - Security-focused Python practice tools and study scripts.
-- `writeups/` - Structured lab documentation.
 
 ## Approach
 
@@ -31,3 +26,7 @@ I use this repository to document practical defensive security work as I build t
 - Document findings and assumptions.
 - Explain the investigation process, not just the answer.
 - Improve notes as my understanding grows.
+
+## Planned Additions
+
+Future networking, system hardening, and packet analysis notes will be added when they contain complete lab writeups rather than empty placeholders.
