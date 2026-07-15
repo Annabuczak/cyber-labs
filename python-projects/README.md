@@ -1,96 +1,56 @@
-Cyber Labs
+# Security-Focused Python Projects
 
-About
+Small Python scripts and study exercises used to practise cybersecurity concepts, automation, and defensive thinking.
 
-This repository contains practical cybersecurity and Python projects completed as part of my transition into the cybersecurity industry while studying for a BSc (Hons) Cyber Security.
+This folder is intentionally limited to security-related Python work. General coursework exercises live in the separate `bsc-cybersecurity` repository.
 
-The purpose of this repository is to document my learning journey and demonstrate hands-on experience with Python programming, networking, security concepts and security operations fundamentals.
+## Structure
 
-Projects
+```text
+python-projects/
+├── tools/
+│   ├── log_analyzer.py
+│   ├── password_audit.py
+│   ├── password_generator.py
+│   └── port_scanner.py
+├── simulators/
+│   ├── login_firewall.py
+│   └── soc_analyst_simulator.py
+├── study-notes/
+│   ├── malware_study.py
+│   ├── physical_security_study.py
+│   ├── security_fundamentals_study.py
+│   ├── social_engineering_study.py
+│   └── threat_actors_study.py
+└── sample-logs/
+    └── server.log
+```
 
-Password Generator
+## Tools
 
-A Python application that generates secure passwords using configurable character sets.
+- `tools/password_audit.py` - Checks password strength against length, uppercase, lowercase, number, and symbol criteria.
+- `tools/password_generator.py` - Generates random passwords with configurable complexity.
+- `tools/port_scanner.py` - Basic TCP port scanner for networking practice.
+- `tools/log_analyzer.py` - Parses a sample server log and counts failed logins, errors, warnings, and info messages.
 
-Skills demonstrated:
+## Simulators
 
-* Variables
-* Loops
-* User input
-* Random number generation
-* String manipulation
+- `simulators/login_firewall.py` - Demonstrates failed login tracking and account lockout logic.
+- `simulators/soc_analyst_simulator.py` - Small command-line simulation of SOC alert review and response.
 
-Log Analyzer
+## Study Notes
 
-A Python log analysis tool that reads log files and identifies security-related events.
+- `study-notes/malware_study.py`
+- `study-notes/physical_security_study.py`
+- `study-notes/security_fundamentals_study.py`
+- `study-notes/social_engineering_study.py`
+- `study-notes/threat_actors_study.py`
 
-Features:
+These files are learning exercises and revision prompts, not production tools.
 
-* Counts failed login attempts
-* Counts INFO messages
-* Counts WARNING messages
-* Counts ERROR messages
-* Generates a summary report
+## Next Improvements
 
-Skills demonstrated:
-
-* File handling
-* Loops
-* Conditional statements
-* Data processing
-* Basic security monitoring concepts
-
-Port Scanner
-
-A basic TCP port scanner that performs DNS resolution and checks whether common ports are open on a target host.
-
-Features:
-
-* Hostname to IP resolution
-* TCP connectivity testing
-* Open/closed port detection
-
-Skills demonstrated:
-
-* Python sockets
-* Networking fundamentals
-* DNS concepts
-* TCP/IP basics
-
-Security Fundamentals Programs
-
-The repository also contains Python study programs covering key cybersecurity topics, including:
-
-* Security Fundamentals
-* Social Engineering
-* Malware
-* Threat Actors
-* Physical Security
-
-These programs were developed to reinforce concepts learned through university study and independent research.
-
-Technologies Used
-
-* Python 3
-* Git
-* GitHub
-* macOS
-* PyCharm
-
-Current Learning Focus
-
-* Python Programming
-* Object-Oriented Programming (OOP)
-* Networking Fundamentals
-* Security Operations (SOC)
-* Linux Fundamentals
-* CompTIA Security+
-* Cyber Security Fundamentals
-
-Author
-
-Anna Buczak
-
-Cyber Security Student | Aspiring SOC Analyst
-
-Currently studying for a BSc (Hons) Cyber Security while developing practical skills through hands-on projects and independent learning.
+- Add docstrings to each script.
+- Replace hard-coded examples with safer command-line arguments.
+- Add small test cases for the tools.
+- Keep filenames lowercase and descriptive.

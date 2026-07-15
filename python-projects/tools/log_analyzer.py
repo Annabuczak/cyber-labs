@@ -1,4 +1,9 @@
-with open("server.log", "r") as file:
+from pathlib import Path
+
+
+log_path = Path(__file__).resolve().parents[1] / "sample-logs" / "server.log"
+
+with open(log_path, "r") as file:
     logs = file.readlines()
 
 
@@ -14,9 +19,6 @@ for line in logs:
         failed_logins +=1
 
 print("Failed logins:", failed_logins,)
-
-for line in logs:
-    print(repr(line))
 
 #ERRORS
 
@@ -42,7 +44,6 @@ for line in logs:
     line = line.strip()
     if "INFO" in line:
         info_logins += 1
-        print("Info logins:", info_logins,)
 
 if failed_logins >= 2:
    print("ALERT: Multiple failed login attempts detected!")

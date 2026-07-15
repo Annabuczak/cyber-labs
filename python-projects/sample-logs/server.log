@@ -1,0 +1,6 @@
+2026-07-09 09:00:01 INFO User anna logged in successfully
+2026-07-09 09:02:14 WARNING Password retry for user guest
+2026-07-09 09:03:22 Failed login for user admin from 192.0.2.10
+2026-07-09 09:04:05 Failed login for user admin from 192.0.2.10
+2026-07-09 09:05:41 ERROR Account lockout triggered for user admin
+2026-07-09 09:08:17 INFO SOC review started

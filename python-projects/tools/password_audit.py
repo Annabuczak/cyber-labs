@@ -37,12 +37,12 @@ else:
 
 has_symbols = False
 for symbol in password:
-    if symbol.isalpha():
+    if not symbol.isalnum():
         has_symbols = True
 if has_symbols:
     print("Password has symbols")
 else:
-    print("Add an symbols")
+    print("Add a symbol")
 
 
 password_strength = 0
@@ -61,8 +61,6 @@ if has_numbers:
 if has_symbols:
     password_strength += 1
 print("Password Strength: " + str(password_strength))
-
-
 
 
 

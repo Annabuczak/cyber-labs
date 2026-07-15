@@ -1,40 +1,32 @@
-Cybersecurity Student | Aspiring SOC Analyst
+# Cyber Labs
 
-Cybersecurity student transitioning into Security Operations.
+Hands-on cybersecurity lab notes covering Linux service management, log analysis, Python security tools, and SOC investigation practice.
 
-This repository documents hands-on labs, networking fundamentals, system hardening exercises, and detection investigations as I build toward a SOC Analyst role in a Blue Team environment.
+I use this repository to document practical defensive security work as I build toward an entry-level Blue Team or SOC Analyst role. The focus is on reproducible exercises, clear notes, and investigation thinking.
 
-My focus is on developing practical defensive skills, understanding system behaviour, and learning how to detect and analyse security events — not just completing labs.
+## Focus Areas
 
-⸻
+- Linux service management
+- Service management with `systemctl`
+- Windows Event Log analysis
+- Detection thinking and investigation writeups
+- Python scripting for small security tools
+- Reproducible lab documentation
 
-🧪 Cyber Labs
+## Structure
 
-Structured documentation of practical Linux, Windows, and networking lab work designed to build strong SOC foundations.
+- `linux/services/` - Linux service management notes and command practice.
+- `soc-labs/` - Event log investigations and detection exercises.
+- `python-projects/` - Security-focused Python practice tools and study scripts.
 
-This repository focuses on:
-	•	Linux system fundamentals
-	•	Service management & systemctl
-	•	Permissions & process control
-	•	Windows Event Log analysis
-	•	Basic network reconnaissance (nmap, packet inspection)
-	•	Detection thinking & investigation writeups
-	•	Reproducible lab exercises
+## Approach
 
-⸻
+- Define clear objectives.
+- Record reproducible commands.
+- Document findings and assumptions.
+- Explain the investigation process, not just the answer.
+- Improve notes as my understanding grows.
 
-📁 Structure
-	•	linux/ → Permissions, processes, services
-	•	networking/ → IP addressing, Nmap scans, packet inspection
-	•	system-hardening/ → Baseline security configurations
-	•	soc-lab/ → Event log investigations & detection exercises
-	•	writeups/ → Structured lab documentation
+## Planned Additions
 
-⸻
-
-🧠 Approach
-	•	Clear objectives
-	•	Reproducible commands
-	•	Documented findings
-	•	Investigation mindset
-	•	Continuous improvement
+Future networking, system hardening, and packet analysis notes will be added when they contain complete lab writeups rather than empty placeholders.

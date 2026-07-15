@@ -1,7 +1,0 @@
-INFO User login successful
-INFO User logout
-WARNING Failed login attempt
-INFO User login successful
-WARNING Failed login attempt
-ERROR Account locked
-ERROR Database connection failed
