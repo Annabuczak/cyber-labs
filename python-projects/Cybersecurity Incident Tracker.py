@@ -10,7 +10,18 @@ class Reporter:
         self.email = email
         self.password = password
 
-
+reporter_1 = Reporter(
+    name="John",
+    email="John@email.com",
+    password="weakpassword12",
+    department="SOC1"
+)
+reporter_2 = Reporter(
+    name="Ben",
+    email="ben@email",
+    password="123234",
+    department="SOC2"
+)
 class Analyst(Reporter):
     def __init__(self, name, email, password, department, skill_level):
         super().__init__(name, email, password, department)
@@ -23,3 +34,32 @@ analyst_1 = Analyst(
     "Cybersecurity",
     "Beginner"
 )
+
+analyst_2 = Analyst(
+    "Louie",
+    "Louie@.com",
+    "password123",
+    "Cybersecurity",
+    "Mid"
+)
+
+analyst_3 = Analyst(
+    "John",
+    "John@.com",
+    "password123",
+    "Cybersecurity",
+    "Senior"
+)
+
+class Incident:
+    def __init__(self,incident_id,title,description,type,severity,status,reporter,analyst_assigned,evidence_notes,):
+        self.incident_id = incident_id
+        self.title = title
+        self.description = description
+        self.type = type
+        self.severity = severity
+        self.status = status
+        self.reporter = reporter
+        self.analyst_assigned = analyst_assigned
+        self.evidence_notes = evidence_notes
+
