@@ -1,68 +1,37 @@
-# Scenario
-
-# A small organisation needs a system to record and manage cybersecurity incidents.
-# Staff can report incidents, analysts can investigate them, evidence can be added,
-# and each case can move through different statuses until it is closed.
-
-class Reporter:
-    def __init__(self, name, email, password, department):
+class Person:
+    def __init__(self, name, email, department):
         self.name = name
         self.email = email
-        self.password = password
+        self.department = department
 
 
-reporter_1 = Reporter(
-    name="John",
-    email="John@email.com",
-    password="weakpassword12",
-    department="SOC1"
-)
-reporter_2 = Reporter(
-    name="Ben",
-    email="ben@email",
-    password="123234",
-    department="SOC2"
-)
+class Reporter(Person):
+    pass
 
 
-class Analyst(Reporter):
-    def __init__(self, name, email, password, department, skill_level):
-        super().__init__(name, email, password, department)
+class Analyst(Person):
+    def __init__(self, name, email, department, skill_level):
+        super().__init__(name, email, department)
         self.skill_level = skill_level
 
 
-analyst_1 = Analyst(
-    "Anna",
-    "anna@email.com",
-    "password123",
-    "Cybersecurity",
-    "Beginner"
-)
-
-analyst_2 = Analyst(
-    "Louie",
-    "Louie@.com",
-    "password123",
-    "Cybersecurity",
-    "Mid"
-)
-
-analyst_3 = Analyst(
-    "John",
-    "John@.com",
-    "password123",
-    "Cybersecurity",
-    "Senior"
-)
-
-
 class Incident:
-    def __init__(self, incident_id, title, description, type, severity, status, reporter, analyst_assigned,
-                 evidence_notes, ):
+    def __init__(
+        self,
+        incident_id,
+        title,
+        description,
+        incident_type,
+        severity,
+        status,
+        reporter,
+        analyst_assigned,
+        evidence_notes
+    ):
         self.incident_id = incident_id
         self.title = title
         self.description = description
-        self.type = type
+        self.incident_type = incident_type
         self.severity = severity
         self.status = status
         self.reporter = reporter
@@ -70,26 +39,66 @@ class Incident:
         self.evidence_notes = evidence_notes
 
 
-incident_1 = Incident(
-    "101",
-    "Phishing emails"
-    "Several emails sent from email resembling Microsoft domain"
-    "Phishing"
-    "Low"
-    "Closed"
-    "John"
-    "Anna'"
-    "None"
 
-)
-incident_2 = Incident(
-    "102",
-    "Bruteforce attack"
-    "Several attempts to force entry to main server"
-    "High"
-    "Closed"
-    "Ben"
-    "John"
-    "Senior"
-    "None"
-)
+class IncidentTracker:
+    def __init__(self):
+        self.incidents = []
+
+    def add_incident(self, incident):
+        self.incidents.append(incident)
+
+    def show_incidents(self):
+        for incident in self.incidents:
+            print(f"ID: {incident.incident_id}")
+            print(f"Title: {incident.title}")
+            print(f"Description: {incident.description}")
+            print(f"Type: {incident.incident_type}")
+            print(f"Severity: {incident.severity}")
+            print(f"Status: {incident.status}")
+            print(f"Reporter: {incident.reporter.name}")
+            print(f"Analyst: {incident.analyst_assigned.name}")
+            print(f"Evidence: {incident.evidence_notes}")
+            print()
+
+    def show_open_incidents(self):
+        for incident in self.incidents:
+            if incident.status == "Open":
+                print(f"Open incident: {incident.incident_id} - {incident.title}")
+
+    reporter_1 = Reporter("John", "john@email.com", "SOC1")
+    reporter_2 = Reporter("Ben", "ben@email.com", "SOC2")
+
+    analyst_1 = Analyst("Anna", "anna@email.com", "Cybersecurity", "Beginner")
+    analyst_3 = Analyst("John", "john.analyst@email.com", "Cybersecurity", "Senior")
+
+    incident_1 = Incident(
+        "101",
+        "Phishing emails",
+        "Several emails were sent from an address resembling a Microsoft domain.",
+        "Phishing",
+        "Low",
+        "Open",
+        reporter_1,
+        analyst_1,
+        []
+    )
+
+    incident_2 = Incident(
+        "102",
+        "Brute-force attack",
+        "Several attempts were made to gain access to the main server.",
+        "Unauthorised Access",
+        "High",
+        "Open",
+        reporter_2,
+        analyst_3,
+        []
+    )
+
+    incident_tracker = IncidentTracker()
+
+    incident_tracker.add_incident(incident_1)
+    incident_tracker.add_incident(incident_2)
+
+    incident_tracker.show_incidents()
+    incident_tracker.show_open_incidents()
