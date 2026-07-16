@@ -73,6 +73,12 @@ class IncidentTracker:
         for incident in self.incidents:
             print(f"Incident severity {incident.severity}: {incident.incident_id}")
 
+    def change_status(self, incident_id, new_status):
+        for incident in self.incidents:
+            if incident.incident_id == incident_id:
+                incident.status = new_status
+                print(f"Incident {incident.incident_id} status changed to {incident.status}")
+
     def response_plan(self):
         for incident in self.incidents:
             if incident.status == "Open":
@@ -123,4 +129,6 @@ incident_tracker.show_incidents()
 incident_tracker.show_open_incidents()
 incident_tracker.show_severity()
 incident_tracker.show_closed_incidents()
+incident_tracker.response_plan()
+incident_tracker.change_status("101", "Closed")
 incident_tracker.response_plan()
