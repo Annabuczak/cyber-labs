@@ -1,14 +1,15 @@
-#Scenario
+# Scenario
 
-#A small organisation needs a system to record and manage cybersecurity incidents.
+# A small organisation needs a system to record and manage cybersecurity incidents.
 # Staff can report incidents, analysts can investigate them, evidence can be added,
 # and each case can move through different statuses until it is closed.
 
 class Reporter:
-    def __init__(self,name,email,password,department):
+    def __init__(self, name, email, password, department):
         self.name = name
         self.email = email
         self.password = password
+
 
 reporter_1 = Reporter(
     name="John",
@@ -22,10 +23,13 @@ reporter_2 = Reporter(
     password="123234",
     department="SOC2"
 )
+
+
 class Analyst(Reporter):
     def __init__(self, name, email, password, department, skill_level):
         super().__init__(name, email, password, department)
         self.skill_level = skill_level
+
 
 analyst_1 = Analyst(
     "Anna",
@@ -51,8 +55,10 @@ analyst_3 = Analyst(
     "Senior"
 )
 
+
 class Incident:
-    def __init__(self,incident_id,title,description,type,severity,status,reporter,analyst_assigned,evidence_notes,):
+    def __init__(self, incident_id, title, description, type, severity, status, reporter, analyst_assigned,
+                 evidence_notes, ):
         self.incident_id = incident_id
         self.title = title
         self.description = description
@@ -63,3 +69,27 @@ class Incident:
         self.analyst_assigned = analyst_assigned
         self.evidence_notes = evidence_notes
 
+
+incident_1 = Incident(
+    "101",
+    "Phishing emails"
+    "Several emails sent from email resembling Microsoft domain"
+    "Phishing"
+    "Low"
+    "Closed"
+    "John"
+    "Anna'"
+    "None"
+
+)
+incident_2 = Incident(
+    "102",
+    "Bruteforce attack"
+    "Several attempts to force entry to main server"
+    "High"
+    "Closed"
+    "Ben"
+    "John"
+    "Senior"
+    "None"
+)
