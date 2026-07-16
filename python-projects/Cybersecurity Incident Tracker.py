@@ -79,6 +79,12 @@ class IncidentTracker:
                 incident.status = new_status
                 print(f"Incident {incident.incident_id} status changed to {incident.status}")
 
+    def show_summary(self):
+        for incident in self.incidents:
+            if incident.status == "Closed":
+                print("Short summary : Incident delt with and closed ")
+
+
     def response_plan(self):
         for incident in self.incidents:
             if incident.status == "Open":
@@ -114,7 +120,7 @@ incident_2 = Incident(
     "Several attempts were made to gain access to the main server.",
     "Unauthorised Access",
     "High",
-    "Open",
+    "Closed",
     reporter_2,
     analyst_3,
     []
@@ -132,3 +138,4 @@ incident_tracker.show_closed_incidents()
 incident_tracker.response_plan()
 incident_tracker.change_status("101", "Closed")
 incident_tracker.response_plan()
+incident_tracker.show_summary()
